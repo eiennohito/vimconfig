@@ -50,6 +50,7 @@
 " _. Bundles {{{
 
  NeoBundle 'altercation/vim-colors-solarized.git'
+ NeoBundle 'tomasr/molokai'
 
  " Git integration {{{ "
  NeoBundle 'tpope/vim-fugitive'
@@ -68,7 +69,7 @@ NeoBundle 'Shougo/unite.vim'
 
 let g:unite_source_history_yank_enable = 1
 nnoremap <c-p> :<C-u>Unite -buffer-name=files -start-insert file_rec/async:!<CR>
-nnoremap <leader>e :<C-u>Unite -buffer-name=buffer -start-insert buffer<cr>
+nnoremap <leader>f :<C-u>Unite -buffer-name=buffer buffer<cr>
 
 "ustom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
@@ -162,7 +163,8 @@ set backspace=indent,eol,start
 
 set background=dark
 let g:solarized_termcolors=256
-colorscheme solarized
+let g:rehash256 = 1
+colorscheme molokai
 
 set relativenumber
 
