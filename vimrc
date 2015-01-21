@@ -51,14 +51,56 @@
 
  NeoBundle 'altercation/vim-colors-solarized.git'
 
- NeoBundle 'bling/vim-airline'
-
+ " Git integration {{{ "
  NeoBundle 'tpope/vim-fugitive'
+    nmap <leader>gs :Gstatus<CR>
+    nmap <leader>gc :Gcommit -v<CR>
+ " }}} Git integration "
 
  NeoBundle 'Valloric/YouCompleteMe'
 
  NeoBundle 'git@github.com:GEverding/vim-hocon.git'
- 
+
+ " Status line {{{ "
+ set laststatus=2
+ let g:airline#extensions#tabline#enabled = 1
+
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  " unicode symbols
+  let g:airline_left_sep = '»'
+  let g:airline_left_sep = '▶'
+  let g:airline_right_sep = '«'
+  let g:airline_right_sep = '◀'
+  let g:airline_symbols.linenr = '␊'
+  let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.paste = 'Þ'
+  let g:airline_symbols.paste = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+
+ NeoBundle 'git@github.com:bling/vim-airline.git'
+
+ " }}} Status line "
+
+ " Snippets {{{
+ NeoBundle 'SirVer/ultisnips'
+ "
+ NeoBundle 'git@github.com:eiennohito/vim-snippets.git'
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+ "}}}
+
  " _. LaTeX {{{
 
  let g:latex_build_dir = './Output'
@@ -89,18 +131,20 @@ augroup ft_vim
 augroup END
 " }}}
 
- syntax on
- set backspace=indent,eol,start
+" Fold description {{{ "
+syntax on
+set backspace=indent,eol,start
 
- set background=dark
- let g:solarized_termcolors=256
- colorscheme solarized
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
 
- set relativenumber
+set relativenumber
 
- set expandtab
- set shiftwidth=2
- set softtabstop=2
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+" }}} Fold description "
 
  nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
@@ -139,9 +183,35 @@ hi! link ShowMarksHLm LineNr
 " }}}
 
 " _. Text Folding {{{
-exec ':so '.s:dotvim.'/functions/my_fold_text.vim'
+"exec ':so '.s:dotvim.'/functions/my_fold_text.vim'
 " }}}
-"
+
+nmap <silent> <leader>hh :set invhlsearch<CR>
+nmap <silent> <leader>ll :set invlist<CR>
+nmap <silent> <leader>nn :set invnumber<CR>
+nmap <silent> <leader>pp :set invpaste<CR>
+nmap <silent> <leader>ii :set invrelativenumber<CR>
+
+" Don't redraw while executing macros
+set nolazyredraw
+
+" Trailing whitespace {{{
+" Only shown when not in insert mode so I don't go insane.
+augroup trailing
+    au!
+    au InsertEnter * :set listchars-=trail:␣
+    au InsertLeave * :set listchars+=trail:␣
+augroup END
+
+" Remove trailing whitespaces when saving
+" Wanna know more? http://vim.wikia.com/wiki/Remove_unwanted_spaces
+" If you want to remove trailing spaces when you want, so not automatically,
+" see
+" http://vim.wikia.com/wiki/Remove_unwanted_spaces#Display_or_remove_unwanted_whitespace_with_a_script.
+autocmd BufWritePre * :%s/\s\+$//e
+
+" }}}
+
 autocmd! BufWritePost vimrc source $MYVIMRC
  " If there are uninstalled bundles found on startup,
  " this will conveniently prompt you to install them.
