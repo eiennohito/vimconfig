@@ -61,6 +61,26 @@
  " }}} Git integration "
 
  NeoBundle 'Valloric/YouCompleteMe'
+ "
+" Unite {{{ "
+
+NeoBundle 'Shougo/unite.vim'
+
+let g:unite_source_history_yank_enable = 1
+nnoremap <c-p> :<C-u>Unite -buffer-name=files -start-insert file_rec/async:!<CR>
+nnoremap <leader>e :<C-u>Unite -buffer-name=buffer -start-insert buffer<cr>
+
+"ustom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  " Play nice with supertab
+  let b:SuperTabDisabled=1
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
+
+" }}} Unite "
 
  NeoBundle 'git@github.com:GEverding/vim-hocon.git'
 
@@ -120,6 +140,8 @@ let g:UltiSnipsEditSplit="vertical"
  call neobundle#end()
 
 " }}}
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 " Required:
  filetype plugin indent on
@@ -242,10 +264,10 @@ vnoremap j gj
 vnoremap k gk
 
 " Easy splitted window navigation
-noremap <C-h>  <C-w>h
-noremap <C-j>  <C-w>j
-noremap <C-k>  <C-w>k
-noremap <C-l>  <C-w>l
+nnoremap <C-h>  <C-w>h
+nnoremap <C-j>  <C-w>j
+nnoremap <C-k>  <C-w>k
+nnoremap <C-l>  <C-w>l
 
 " Easy buffer navigation
 noremap <leader>bp :bprevious<cr>
