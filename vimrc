@@ -128,7 +128,7 @@ let g:UltiSnipsEditSplit="vertical"
  " _. LaTeX {{{
 
  let g:latex_build_dir = './Output'
- let g:latex_latexmk_options = '-lualatex'
+ let g:latex_latexmk_options = '-lualatex -synctex=1'
  let g:latex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
  function! SyncTexForward()
    call latex#view#view('-b '
